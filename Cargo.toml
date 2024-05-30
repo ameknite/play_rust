@@ -3,39 +3,42 @@ name = "play_rust"
 version = "0.1.0"
 edition = "2021"
 license = "MPL-2.0"
-rust-version = "1.66.1"
-
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
+# Enable a small amount of optimization in debug mode
+[profile.dev]
+opt-level = 1
+
+# Enable high optimizations for dependencies (incl. Bevy), but not for our code:opt-level = 1
+[profile.dev.package."*"]
+opt-level = 3
+
 [dependencies]
-color-eyre = { version = "0.6.2" }
-itertools = "0.12.0"
-tap = "1.0.1"
-# rstest = "0.18.2"
-# rayon = "1.8.1"
-# const_panic = "0.2.8"
+ ahash = "0.8.11"
+ anyhow = "1.0.81"
+ color-eyre = "0.6.2"
+ miette = { version = "7.2.0", features = ["fancy"] }
+ sha2 = "0.10.8"
+ itertools = "0.12.1"
+ tap = "1.0.1"
+ rodio = "0.17.3"# cpal = "0.15.2"# ndk = "0.8.0"# oboe = { git = "https://github.com/katyo/oboe-rs", branch = "master", features=["ndk"]}# rstest = "0.18.2"# rayon = "1.8.1"# const_panic = "0.2.8"
 
-[lints.rust]
-unsafe_code = "forbid"
+# [lints.rust]
+# unsafe_code = "forbid"
 
-[lints.clippy]
-enum_global_use = "deny"
-pedantic = "deny"
-nursery = "deny"
-unwrap_used = "deny"
-
-# cargo clippy
-# bacon clippy
+# [lints.clippy]
+# enum_global_use = "deny"
+# pedantic = "deny"
+# nursery = "deny"
+# unwrap_used = "deny"
 
 [profile.release]
-# opt-level = 3
-opt-level = "z"
-lto = "fat"
+opt-level = 3
+lto = true
 codegen-units = 1
 panic = "abort"
-strip = "symbols"
-
+strip = true
 
 # cargo deny check
-# cargo msrv
-# cargo semver check
+# cargo msrvsss
+# cargo semver-check
